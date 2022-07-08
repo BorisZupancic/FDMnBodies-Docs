@@ -11,7 +11,7 @@
 
 \newcommand{\pd}{\partial}
 
-\title{1D Fuzzy Dark Matter and Particle system}
+\title{Fully Self Consistent Simulations of the 1D Fuzzy Dark Matter and Particle System}
 \author{Boris Zupancic}
 \date{\today}
 
@@ -191,6 +191,45 @@ yielding Poisson's equation fully solvable on our 1D mesh by simply applying an 
 \end{equation*}
 
 \subsection{Time Evolution}
+
+The final ingredient in running a fully self-consistent simulation is evolving both the FDM and Particles with the same time-differencing scheme. We use a kick-drift-kick algorithm. Each step in the kick-drift-kick is performed at the same time for FDM and Particles (Kick FDM+Particles, then Drift FDM+Particles, etc.).
+
+
+\subsubsection{FDM}
+For the FDM, we employ a kick-drift-kick algorithm following \cite{Edwards_2018}, \cite{May&Springel_2021}, to solve Eq(\ref{SP-NonDim}):
+\begin{align}
+    \chi(\tau+\Delta \tau,z) & = \left[\mathcal{T} \circ e^{-i \int_\tau^{\tau+\Delta\tau} \left(-r \pd_z^2 + \frac{1}{2r}\varphi(\tau,z)\right) } \right]\cdot \chi(\tau,z) \\
+    &  \approx  \left[ e^{-i\frac{\Delta\tau}{4r}\varphi(\tau+\Delta\tau,z)} \circ e^{ir\Delta\tau \pd_z^2}\circ e^{-i\frac{\Delta\tau}{4r}\varphi(\tau,z)} \right] \cdot \chi(\tau,z)\\
+    & = \left[e^{-i\frac{\Delta\tau}{4r}\varphi(\tau+\Delta\tau,z)} \circ \text{FFT}^{-1}\circ e^{ir\Delta\tau k^2}\circ \text{FFT}\circ e^{-i\frac{\Delta\tau}{4r}\varphi(\tau,z)} \right] \cdot \chi(\tau,z)
+\end{align}
+The "kick-drift-kick" steps are identified as:
+\begin{align*}
+    & \text{KICK 1:}  \left[ e^{-i\frac{\Delta\tau}{4r}\varphi(\tau,z)}\right] \cdot \chi(\tau,z) \rightarrow \chi'(\tau,z) \\
+    &\text{DRIFT:}  \left[\text{ FFT}^{-1}\circ e^{ir\Delta\tau k^2}\circ \text{FFT } \right] \chi'(\tau,z) \rightarrow \chi''(\tau,z) \\
+    &\text{Update Potential} \\
+    &\text{KICK 2:}  \left[e^{-i\frac{\Delta\tau}{4r}\varphi(\tau+\Delta\tau,z)} \right]\cdot \chi''(\tau,z) \rightarrow \chi(\tau+\Delta\tau,z)
+\end{align*}
+
+The "Update Potential" here (and below) means to recalculate the densities $\varrho_\text{\tiny{FDM}}$ and $\varrho_\text{part}$, and then solve Poisson's equation before continuing onto KICK 2.
+\subsubsection{Particles} To evolve the particle system, we again employ a "kick-drift-kick" algorithm based off of that used for the FDM. We solve the particle EOM from Eqs(\ref{FULL-NonDim}), for an individual particle:
+\begin{align*}
+&\text{KICK 1: } v({\tau+\Delta\tau/2}) = v(\tau) + \frac{\Delta\tau}{2}a(\tau)\\
+&\text{DRIFT: } z({\tau+\Delta\tau})+ \Delta\tau v({\tau+\Delta\tau/2})\\
+&\text{Update Potential (to get $a({\tau+\Delta\tau/2}) = -\pd_z \varphi({\tau+\Delta\tau/2})$})\\
+&\text{KICK 2: } v({\tau+\Delta\tau}) = v({\tau+\Delta\tau/2}) + \frac{\Delta\tau}{2}a({\tau+\Delta\tau/2})\\
+\end{align*}
+
+%-------------------------------------------------------------
+% SECTION 3: SIMULATIONS
+\section{Simulations}
+
+%-------------------------------------------------------------
+% Section 4: ANALYSIS
+\section{Analysis + Diagnostics}
+%-----------------------------------------
+% BIBLIOGRAPHY
+\bibliographystyle{plain} % We choose the "plain" reference style
+\bibliography{refs} % Entries are in the refs.bib file
 
 \end{document}
 
