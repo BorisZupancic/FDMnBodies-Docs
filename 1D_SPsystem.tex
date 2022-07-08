@@ -136,7 +136,9 @@ Each particle is given an initial velocity of zero: $v = 0$.
 %\subsection{Calculating Physical Quantities}
 
 \subsection{Calculating Density}
-At any given time step of a simulation, it is necessary to calculate the acceleration field defined on the grid. To do this, density must be calculated first. Following Equation (\ref{Particle density}), in our numerical scheme, the density in a given bin of length $d L_\text{box}$ will be:
+At any given time step of a simulation, it is necessary to calculate the acceleration field defined on the grid. To do this, density must be calculated first. It is straightforward to calculate the FDM density: $\varrho_\text{\tiny{FDM}} = m_\text{\tiny{FDM}}|\chi|^2$. Calculating particle density amounts to histogramming the positions of particles.
+
+Following Equation (\ref{Particle density}), in our numerical scheme, the particle density in a given bin of length $d L_\text{box}$ will be:
 
 \begin{equation}
 \rho_k = \frac{N_k}{d L_\text{box}}\cdot \Sigma
