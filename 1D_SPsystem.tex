@@ -1,4 +1,4 @@
-\documentclass{book}
+\documentclass[oneside]{book}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{siunitx}
@@ -33,10 +33,11 @@
 
 \chapter{The System}
 
-The system is comprised of a Fuzzy Dark Matter (FDM) component, as well as a set of particles, both confined to a 1D box. The FDM and particles share the same gravitational potential, defined by their combined density $rho$ and Poisson's equation: 
-\begin{equation*}
+The system is comprised of a Fuzzy Dark Matter (FDM) component, as well as a set of particles, both confined to a 1D box. The FDM and particles share the same gravitational potential, defined by their combined density $\rho$ and Poisson's equation: 
+\begin{equation}
 \nabla^2 \Phi = 4\pi G \rho    
-\end{equation*}
+\label{Poisson}
+\end{equation}
 
 The equations of motion (EOM) for FDM and the particles both rely on $\Phi$, but are different, as seen below. Our goal is to numerically integrate these equations of motion in a fully self-consistent manner.
 
@@ -52,9 +53,9 @@ The EOM for FDM in a periodic box is the Schrodinger-Poisson (SP) system :
 \end{equation}
 where $\hbar$ is the reduced Planck's constant, $m_{FDM}$ is the FDM-particle mass, $\Phi$ is the specific gravitational potential, and $\psi$ is a Schrodinger wave-function. The wave-function $\psi$ specifies the density:
 $$\rho_\text{\tiny{FDM}} = m_\text{\tiny{FDM}}|\psi|^2$$
-Thus $|\psi|^2$ is interpreted as a number density. Further notice that in Eq(\ref{SP}) the average number density is subtracted off in Poisson's equation. This is due to Gauss' Law requiring that the boundary conditions are null for a periodic box. 
+Thus $|\psi|^2$ is interpreted as a number density. Further notice that in Eq(\ref{SP}) the average number density is subtracted off in Poisson's equation. This is due to Gauss' Law requiring that the boundary conditions are null for a periodic box (this "Jean's Swindle" also allows us to solve Eq(\ref{Poisson}) using an FFT method, outlined further down). 
 
-To non-dimensionalize, we would like length, velocity, time and mass scales, $L_s, v_s,T_s,M_s$, such that
+To non-dimensionalize our system Eq(\ref{SP}), we would like length, velocity, time and mass scales, $L_s, v_s,T_s,M_s$, such that
 \begin{equation}
     \begin{cases}
     \Phi = v_s^2 \varphi\\
@@ -69,12 +70,20 @@ To illustrate, let us fix length and velocity scales $L_s$ and $v_s$, respective
 $$L_s = \SI{1}{kpc} $$
 $$v_s = \SI{100}{km.s^{-1}}$$
 and then define a time scale 
-$$T_s  = \frac{L_s}{v_s}$$
+\begin{equation}
+T_s  = \frac{L_s}{v_s}
+\label{T_scale}
+\end{equation}
 We may define a mass scale by first setting Newton's constant to unity $G = 1$, then:
-$$[G] = M_s^{-1} L_s^3 T_s^{-2} \Rightarrow M_s \equiv \frac{L_s^3}{T_s^2} = v_s^2 L_s$$
-
+\begin{equation}
+[G] = M_s^{-1} L_s^3 T_s^{-2} \Rightarrow M_s \equiv \frac{L_s^3}{T_s^2} = v_s^2 L_s 
+\label{M_scale}
+\end{equation}
 We may further define a "fuzziness" parameter 
-$$r \equiv \frac{\hbar}{2 m_\text{\tiny{FDM}} v_s L_s}$$
+\begin{equation}
+r \equiv \frac{\hbar}{2 m_\text{\tiny{FDM}} v_s L_s}
+\label{Fuzziness Param}
+\end{equation}
 and finally substituting (\ref{Substitutions}) along with $r$ into Eq(\ref{SP}), our dimensionless SP system is:
 
 \begin{equation}
@@ -86,11 +95,19 @@ and finally substituting (\ref{Substitutions}) along with $r$ into Eq(\ref{SP}),
     \label{SP-NonDim}
 \end{equation}
 
+
+
 \section{Particles}
 In the particle scenario, the equation of motion is the familiar form of Newton's second law, where for a single particle with position $x$ and mass $m$ in a gravitational potential $U = m\Phi$:
-$$\frac{d^2 x}{d t^2} = -\nabla\Phi = -\frac{\pd}{\pd x}\Phi(x,t)$$
-Substituting the same dimensionless parameters (\ref{Substitutions}) as in the wave scenario:
-$$\frac{d^2 z}{d\tau^2} = -\frac{\pd \varphi}{\pd z}$$
+\begin{equation}
+    \frac{d^2 x}{d t^2} = -\nabla\Phi = -\frac{\pd}{\pd x}\Phi(x,t)
+    \label{ParticlesEOM}
+\end{equation}
+Substituting the same dimensionless parameters (\ref{Substitutions}) as in the wave scenario into Eq(\ref{ParticlesEOM}):
+
+\begin{equation}
+    \frac{d^2 z}{d\tau^2} = -\frac{\pd \varphi}{\pd z}
+\end{equation}
 
 The gravitational potential is again given by Poisson's equation, and the particle density is 
 \begin{equation}
@@ -100,7 +117,7 @@ The gravitational potential is again given by Poisson's equation, and the partic
 
 where $n$ is the volumetric/surface/linear number density and $m_{\text{part}}$ is the particle mass. We specify how to non-dimensionlize the particle density further down below in \cref{Poisson's Equation for Particles}, when we address the numerical schemes.
     
-\section{Together}
+\section{Together}\label{Together}
 Combining the above information, the dimensionless FDM + Particle system looks like:
 \begin{equation}
     \begin{cases}
@@ -108,19 +125,27 @@ Combining the above information, the dimensionless FDM + Particle system looks l
     
     \frac{d^2 z}{d\tau^2} = -\frac{\pd \varphi}{\pd z}\\
     
-    \frac{\pd^2 \varphi}{\pd z^2} = 4\pi \left[{\varrho} +\langle{\varrho}\rangle\right]
+    \frac{\pd^2 \varphi}{\pd z^2} = 4\pi \left[{\varrho} - \langle{\varrho}\rangle\right]
     \end{cases}
     \label{FULL-NonDim}
 \end{equation}
 
-where we take ${\varrho}$ as specifying the total density dimensionless density, given by the addition of FDM density and Particle density.
+where we take ${\varrho}$ as specifying the total dimensionless density, given by the addition of FDM density and Particle density:
+\begin{equation}
+    \varrho \equiv \varrho_\text{\tiny{FDM}} + \varrho_\text{part} 
+\end{equation}
+
+where $\varrho_\text{\tiny{FDM}} = m_\text{\tiny{FDM}}|\chi|^2$, and $\varrho_\text{part}$ is not defined until later, in \cref{Poisson's Equation for Particles}.
 %------------------------------------------------------------------------------
-% SECTION 2: NUMERICAL SCHEMES
+% CHAPTER 2: NUMERICAL SCHEMES
 \chapter{1D Numerical Schemes}
 
 \section{Initial Setup}
 The system is setup on a grid of $N$ linearly spaced points:
-$$z = [z_0, z_1, z_2, ..., z_{N-1}]$$
+\begin{equation}
+    z = [z_0, z_1, z_2, ..., z_{N-1}]
+    \label{grid}
+\end{equation}
 (indexing starts with \texttt{i = 0} in Python3). These values will serve as edges for histogramming positions of particles, and positions at which the density, potential and acceleration fields are defined. The width of the bins is the constant
 $$dz = z_{i+1} - z_i$$
 
@@ -132,18 +157,12 @@ In any given simulation, we further define the box width $L$, and apply the boun
     z_{N-1} &= L/2
 \end{align}
 
-%\subsubsection{FDM}
-
-%\subsubsection{Particles}
-
 \subsection{Initial Conditions}
 Our goal is to now setup an initial distribution of FDM and/or particles.
 
 To create these initial conditions, a collection of particles is generated from a random gaussian distribution centered at 
 $$z_\text{center} = \frac{z_0 -z_{N-1}}{2} $$
-Each particle is given an initial velocity of zero: $v = 0$.
-
-%\subsection{Calculating Physical Quantities}
+The standard deviation of this distribution is up to choice (treated as an input parameter in the simulation outlined in Chapter 3). Each particle is given an initial velocity of zero: $v = 0$.
 
 \section{Calculating Density}
 At any given time step of a simulation, it is necessary to calculate the acceleration field defined on the grid. To do this, density must be calculated first. It is straightforward to calculate the FDM density: $\varrho_\text{\tiny{FDM}} = m_\text{\tiny{FDM}}|\chi|^2$. Calculating particle density amounts to histogramming the positions of particles.
@@ -164,7 +183,23 @@ To retrieve a non-dimensional measure for density, we must consider again our sc
     \end{cases}
 \end{equation*}
 where $\sigma$ is a newly defined non-dimensional analogue for the mass (per unit area) of each particle. Substitution of these values into (\ref{Numerical Particle Density}) yields a newly defined (non-dim.) density:
-$$\varrho_k \equiv \frac{L_s^3}{M_s} \rho_k = \frac{N_k}{dz}\sigma$$
+\begin{equation}
+    \varrho_k \equiv \frac{L_s^3}{M_s} \rho_k = \frac{N_k}{dz}\sigma
+    \label{varrho_part}
+\end{equation}
+This is $\varrho_k$ is the $\varrho_\text{part}$ talked about in \cref{Together}, just defined in a single bin on the grid Eq(\ref{grid}). 
+
+In practice it is necessary to interpolate the histogrammed values $N_k$ from \textit{between} the grid points $z_0,z_1,...,z_{N-1}$ \textit{onto} the grid points. We do this simply by taking an arbitrary array of length $N$: 
+$$[\tilde{N}_0, \tilde{N}_1, ..., \tilde{N}_{N-1}]$$
+and then for $i \in \{1,2,...,N-2\}$, we let:
+$$\tilde{N}_i = \frac{1}{2}(N_{i-1}+N_{i+1})$$
+and for $i=0,N-1$:
+\begin{align*}
+    & \tilde{N}_0 = \frac{1}{2}(N_{N-1} + N_1) \\
+    & \tilde{N}_{N-1} = \frac{1}{2}(N_{N-2} + N_0)
+\end{align*}
+preserving the periodicity of the 1D box. We then re-assign $\forall k \in \{0,...,N-1\}$:
+$$N_k \leftarrow \tilde{N}_k $$
 
 \subsection{Poisson's Equation for Particles}\label{Poisson's Equation for Particles}
 Now that we have covered how dimensionless particle density is calculated, we can non-dimensionalize the corresponding Poisson's Equation. In the dimensional case, Poisson's equation in a periodic box always looks like:
