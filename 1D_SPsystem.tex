@@ -4,7 +4,7 @@
 \usepackage{siunitx}
 \usepackage{color}
 \usepackage{amsfonts}
-
+\usepackage{xcolor}
 \usepackage{hyperref}
 
 \usepackage{cleveref}
@@ -162,44 +162,58 @@ Our goal is to now setup an initial distribution of FDM and/or particles.
 
 To create these initial conditions, a collection of particles is generated from a random gaussian distribution centered at 
 $$z_\text{center} = \frac{z_0 -z_{N-1}}{2} $$
-The standard deviation of this distribution is up to choice (treated as an input parameter in the simulation outlined in Chapter 3). Each particle is given an initial velocity of zero: $v = 0$.
+The standard deviation of this distribution is up to choice (treated as an input parameter in the simulation outlined in Chapter 3). Each particle is given an initial velocity of zero: $v = 0$. Densities of each time step are later calculated, as outlined below.
 
+In the case of FDM, the initial distribution is generated in a similar way, but as a true, smooth gaussian:
+\begin{equation}
+    \rho(z,t=0) \equiv \frac{M}{\sqrt{2\pi \varsigma^2_\text{\tiny{FDM}}}}\exp\left(-\frac{z^2}{2 \varsigma^2_\text{\tiny{FDM}}}\right)
+\end{equation}
+where we have taken M to be the total dimensional mass of the system, and $\varsigma_\text{\tiny{FDM}}$ to be the dimensionless standard deviation of the distribution. This ensures that the density profile is normalized such that:
+$$\int_{-L/2}^{L/2} \rho dz  = M$$
+From here we can define the initial dimensional wavefunction as the square root of the number density:
+\begin{equation}
+    \psi = \sqrt{\frac{M/m_\text{\tiny{FDM}}}{\sqrt{2\pi \varsigma^2_\text{\tiny{FDM}}}}\exp\left(-\frac{z^2}{2 \varsigma^2_\text{\tiny{FDM}}}\right)}
+\end{equation}
+this conserves the equation $\rho_\text{\tiny{FDM}} = m\text{\tiny{FDM}} |\psi|^2$, and following \ref{Substitutions} gives the dimensionless initial wavefunction:
+\begin{equation}
+    \chi(z,\tau=0) = L^{3/2}\sqrt{\frac{M/m_\text{\tiny{FDM}}}{\sqrt{2\pi \varsigma^2_\text{\tiny{FDM}}}}\exp\left(-\frac{z^2}{2 \varsigma^2_\text{\tiny{FDM}}}\right)}
+\end{equation}
 \section{Calculating Density}
 At any given time step of a simulation, it is necessary to calculate the acceleration field defined on the grid. To do this, density must be calculated first. It is straightforward to calculate the FDM density: $\varrho_\text{\tiny{FDM}} = m_\text{\tiny{FDM}}|\chi|^2$. Calculating particle density amounts to histogramming the positions of particles.
 
 Following Equation (\ref{Particle density}), in our numerical scheme, the particle density in a given bin of length $d L_\text{box}$ will be:
 
 \begin{equation}
-\rho_k = \frac{N_k}{d L_\text{box}}\cdot \Sigma
+\rho_k = \frac{n_k}{d L_\text{box}}\cdot \Sigma
 \label{Numerical Particle Density}
 \end{equation}
-where $N_k$ is the number of particles counted in the $k^\text{th}$ bin, and $\Sigma$ is the mass per unit area defined for each particle. Note here that $\Sigma$ must have the specified dimensions in the 1D scenario, as each particle is really treated as an infinite 2D sheet perpendicular to our grid $z$. 
+where $n_k$ is the number of particles counted in the $k^\text{th}$ bin, and $\Sigma$ is the mass per unit area defined for each particle. Note here that $\Sigma$ must have the specified dimensions in the 1D scenario, as each particle is really treated as an infinite 2D sheet perpendicular to our grid $z$ (see \cref{Spitzer+BinneyTremaineProblem}). 
 
 To retrieve a non-dimensional measure for density, we must consider again our scales. The values above may be written as:
 \begin{equation*}
     \begin{cases}
     d L_\text{box} = L_s dz \\
-    \Sigma = \frac{M}{L^2} \sigma
+    \Sigma = \frac{M_s}{L_s^2} \sigma
     \end{cases}
 \end{equation*}
-where $\sigma$ is a newly defined non-dimensional analogue for the mass (per unit area) of each particle. Substitution of these values into (\ref{Numerical Particle Density}) yields a newly defined (non-dim.) density:
+where $\sigma$ is a newly defined non-dimensional analogue for the mass (per unit area) of each particle. Note that we choose the grid $z$ in Eq(\ref{grid}) as our bin edges, thus the non-dim bin size is $dz$. Substitution of these values into (\ref{Numerical Particle Density}) yields a newly defined (non-dim.) density:
 \begin{equation}
-    \varrho_k \equiv \frac{L_s^3}{M_s} \rho_k = \frac{N_k}{dz}\sigma
+    \varrho_k \equiv \frac{L_s^3}{M_s} \rho_k = \frac{n_k}{dz}\sigma
     \label{varrho_part}
 \end{equation}
 This is $\varrho_k$ is the $\varrho_\text{part}$ talked about in \cref{Together}, just defined in a single bin on the grid Eq(\ref{grid}). 
 
 In practice it is necessary to interpolate the histogrammed values $N_k$ from \textit{between} the grid points $z_0,z_1,...,z_{N-1}$ \textit{onto} the grid points. We do this simply by taking an arbitrary array of length $N$: 
-$$[\tilde{N}_0, \tilde{N}_1, ..., \tilde{N}_{N-1}]$$
+$$\tilde{n} = [\tilde{n}_0, \tilde{n}_1, ..., \tilde{n}_{N-1}]$$
 and then for $i \in \{1,2,...,N-2\}$, we let:
-$$\tilde{N}_i = \frac{1}{2}(N_{i-1}+N_{i+1})$$
+$$\tilde{n}_i = \frac{1}{2}(n_{i-1}+n_{i+1})$$
 and for $i=0,N-1$:
 \begin{align*}
-    & \tilde{N}_0 = \frac{1}{2}(N_{N-1} + N_1) \\
-    & \tilde{N}_{N-1} = \frac{1}{2}(N_{N-2} + N_0)
+    & \tilde{n}_0 = \frac{1}{2}(n_{N-1} + n_1) \\
+    & \tilde{n}_{N-1} = \frac{1}{2}(n_{N-2} + n_0)
 \end{align*}
 preserving the periodicity of the 1D box. We then re-assign $\forall k \in \{0,...,N-1\}$:
-$$N_k \leftarrow \tilde{N}_k $$
+$$n_k \leftarrow \tilde{n}_k $$
 
 \subsection{Poisson's Equation for Particles}\label{Poisson's Equation for Particles}
 Now that we have covered how dimensionless particle density is calculated, we can non-dimensionalize the corresponding Poisson's Equation. In the dimensional case, Poisson's equation in a periodic box always looks like:
@@ -213,8 +227,10 @@ When we make the substitutions $\Phi = v_s^2 \varphi$ and $\rho_k = \frac{N_k}{d
 \end{equation*}
 Which reduces to
 \begin{equation}
-    \frac{\pd^2 \varphi}{\pd z^2} = 4\pi \left( \frac{n_k}{\Delta z}\cdot \sigma - \left\langle \frac{n_k}{\Delta z}\cdot \sigma \right\rangle\right)
+    \frac{\pd^2 \varphi}{\pd z^2} = 4\pi \sigma \left( \frac{n_k}{\Delta z} - \left\langle \frac{n_k}{\Delta z}\right\rangle\right)
+    \label{Particle NonDim Poisson's Equation}
 \end{equation}
+You could plug this back into Eq(\ref{FULL-NonDim}) to get the clearer picture of the full dimensionless FDM+Particle system.
 
 \section{Calculating Potential}
 The second main ingredient in evolving the system is knowing the gravitational potential $\Phi$, or in the dimensionless case, $\varphi$. We must solve for $\varphi$ from Poisson's Equation corresponding to FDM+Particles, seen in Eq(5), and we do so using a Fast-Fourier-Transform (FFT) method. The basic idea is that applying the Discrete-Discrete Fourier Transform (since we're in a periodic box with a discrete signal/sequence) on Poisson's equation yields:
@@ -232,16 +248,33 @@ where $k_n \equiv 2\pi n / L$, $L$ being the length of the box. Notice that $\la
 yielding Poisson's equation fully solvable on our 1D mesh by simply applying an FFT to the density and applying an IFFT to the Fourier Coefficients of the potential, defined by:
 \begin{equation*}
     \begin{cases}
-    \hat{\varphi}(k_n) = - \frac{4 \pi}{-k_n^2} \cdot \hat{\varrho}(k_n) \text{, $\forall n \in \mathbb{N}$} \\
+    \hat{\varphi}(k_n) = - \frac{4 \pi}{k_n^2} \cdot \hat{\varrho}(k_n) \text{, $\forall n \in \mathbb{N}$} \\
     \hat{\varphi}(0) = 0
     \end{cases}
 \end{equation*}
 
 \section{Phase Space Distributions}
 
+{\color{red}
+[\textbf{Check This}]}
+
+One of the visual tools we'd like to generate in our simulations is the phase space distribution of not just the particles, but the phase space representation of the FDM wavefunction $\chi$ as well.
+
+In our codes, each particle is as instance of a Python class called \texttt{star}, with attributes of mass, position, and velocity. Thus creating a phase space plot simply means creating a scatter plot of each particles phase space position $(z_\text{star},v_\text{star})$ in $\mathbb{R}^2$.
+
+For creating a phase space representation of the FDM component, we turn to a windowed-FFT (or "Short-time Fourier Transform") similar to the Husimi representation. We get the phase space density by convolving, inside an FFT, the wavefunction with a Guassian window of width $\eta$ centered at a position $z$
+\begin{equation}
+    f(z,k,\tau) \equiv \large{\sum_{m = 0}^{N-1}} \left[e^{imk/N}\exp\left({-\frac{(z-\tilde{z})^2}{2\eta^2}}\right)\chi(\tilde{z,\tau})\right]
+    \label{PhaseSpace FDM}
+\end{equation}
+where $k = 2\pi n$ is the wavenumber in the FFT, ranging in $n\in\{0,...,N-1\}$. In NumPy, which we use in our code, this sign convention requires us to use \texttt{numpy.ifft}. By convention, \texttt{numpy.ifft} also divides by $N$, but we don't mind since we re-normalize $f$ right after so that:
+\begin{equation}
+\int\int f(z,k) dzdk = 1
+\end{equation}
+
 \section{Time Evolution}
 
-The final ingredient in running a fully self-consistent simulation is evolving both the FDM and Particles with the same time-differencing scheme. We use a kick-drift-kick algorithm. Each step in the kick-drift-kick is performed at the same time for FDM and Particles (Kick FDM+Particles, then Drift FDM+Particles, etc.).
+The final ingredient in running a fully self-consistent simulation is evolving both the FDM and Particles with the same time-differencing scheme. We use a kick-drift-kick algorithm. Each step in the kick-drift-kick is performed at the same time for FDM and Particles (Kick FDM+Particles, then Drift FDM+Particles, etc). This time-integration scheme is also symplectic (see \cref{KDK Symplectic}).
 
 
 \subsection{FDM}
@@ -273,7 +306,7 @@ The "Update Potential" here (and below) means to recalculate the densities $\var
 \chapter{Simulations}
 So far, the numerical schemes outlined above have been coded in Python3, and a repo is available on GitHub \footnote{\hyperlink{https://github.com/BorisZupancic/FDM_n_Bodies}{BorisZupancic/FDM\_n\_Bodies} on GitHub.}.
 
-In the program, the dimensional scales, as well as $G$,$\hbar$ and the total Mass $M$, are all set to unity,:
+In the program, the dimensional scales, as well as $G$,$\hbar$ and the (non-dim.) total Mass $M/M_s$, are all set to unity in arbitrary units (of correct dimension):
 \begin{equation*}
     \begin{cases} L_s = 1\\ v_s = 1\\ \end{cases}\Rightarrow \begin{cases}T_s = 1\\ M_s = 1\end{cases} 
 \end{equation*}
@@ -281,7 +314,7 @@ In the program, the dimensional scales, as well as $G$,$\hbar$ and the total Mas
     \begin{cases}
         G = 1\\
         \hbar = 1\\
-        M = 1\\
+        M / M_s = 1\\
     \end{cases}
 \end{equation*}
     
@@ -334,11 +367,11 @@ All Diagnostics for the 100000-Body run are included here:
 %------------------------------------------
 % APPENDIX
 \appendix
-\chapter{Spitzer Distribution}
+\chapter{Spitzer Distribution}\label{Spitzer+BinneyTremaineProblem}
 
 \chapter{1D Virial Theorem}
 
-\chapter{Kick-Drift-Kick is Symplectic}
+\chapter{Kick-Drift-Kick is Symplectic}\label{KDK Symplectic}
 
 
 %-----------------------------------------
