@@ -9,6 +9,8 @@
 
 \usepackage{cleveref}
 \crefformat{section}{\S#2#1#3} % see manual of cleveref, section 8.2.1
+%\crefformat{chapter}{\S}
+%\crefformat{section}{\S}
 \crefformat{subsection}{\S#2#1#3}
 \crefformat{subsubsection}{\S#2#1#3}
 
@@ -200,6 +202,8 @@ yielding Poisson's equation fully solvable on our 1D mesh by simply applying an 
     \end{cases}
 \end{equation*}
 
+\section{Phase Space Distributions}
+
 \section{Time Evolution}
 
 The final ingredient in running a fully self-consistent simulation is evolving both the FDM and Particles with the same time-differencing scheme. We use a kick-drift-kick algorithm. Each step in the kick-drift-kick is performed at the same time for FDM and Particles (Kick FDM+Particles, then Drift FDM+Particles, etc.).
@@ -257,9 +261,14 @@ where
 \end{align}
 
 We further define a new expression for the fuzziness parameter $r$ by rearranging:
-\begin{equation}
-    r \equiv \frac{\hbar}{2m_\text{\tiny{FDM}} v_s L_s} = \frac{1}{4\pi}\frac{h}{m_\text{\tiny{FDM}}\sigma_\text{\tiny{FDM}}} \frac{\sigma_\text{\tiny{FDM}}}{v_s}
-\end{equation}
+\begin{align}
+    r & \equiv \frac{\hbar}{2m_\text{\tiny{FDM}} v_s L_s}  \\
+    & = \frac{1}{4\pi} \left(\frac{h}{m_\text{\tiny{FDM}} \sigma_\text{\tiny{FDM}} R_\text{syst}}\right) \left(\frac{\sigma_\text{\tiny{FDM}}}{v_s}\right) \left(\frac{R_\text{syst}}{L_s}\right) \\
+    & = \frac{1}{4\pi} \left(\frac{\sigma_\text{\tiny{FDM}}}{v_s}\right) \left(\frac{R_\text{syst}}{L_s}\right)
+    \left(\frac{\lambda_\text{deB}}{R_\text{syst}}\right)
+\end{align}
+
+\section{Inputs}
 
 Simulations take in as input:
 \begin{itemize}
@@ -267,9 +276,24 @@ Simulations take in as input:
     \item Percentage of total mass occupied by FDM.
     \item     
 \end{itemize}
+
+\section{Outputs}
+
 %-------------------------------------------------------------
-% Section 4: ANALYSIS
-\chapter{Analysis and Diagnostics}
+% Chapter 4: ANALYSIS
+\chapter{Analysis + Diagnostics}
+
+\section{Running purely N-Body}
+Diagnostics were performed for an array of particle numbers, between 5 and 100000 particles, all generated from a Gaussian distribution of standard deviation 0.1, in a system of total mass $M=1$ (just as described in Chapter 2.)
+
+All Diagnostics for the 100000-Body run are included here:
+
+*Include Pictures/Snapshots here*
+
+\section{Running purely FDM}
+
+\section{Running Together}
+
 
 
 %------------------------------------------
