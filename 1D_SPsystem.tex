@@ -372,7 +372,7 @@ $$m_\text{part} = \frac{M_\text{part}}{\text{Num\_Particles}}$$
 
 Other parameters like the grid resolution $N$, are set at fixed values in the code.
 
-\subsection{Non-Physical Inputs}
+\subsection{Optional Inputs}
 There are other possible/optional inputs in the code, such as: 
 \begin{itemize}
     \item Fixing the potential to a quadratic.
@@ -426,7 +426,16 @@ Now, since the FFT solving method for Poisson's equation, seen in \cref{Poisson 
 $$\Phi \leftarrow \Phi - \langle\Phi\rangle$$
 instead of $\Phi$, we attempt to properly zero the potential by subtracting the maximum value in the box:
 $$\Phi \leftarrow \Phi - \sup_{[-L/2,L/2]}(\Phi)$$
-and then use this value in the potential energy Eq(\ref{Potential Energy}). We of course complete these calculations in our analogous non-dimensional values.
+and then use this value in the potential energy Eq(\ref{Potential Energy}). 
+
+{\color{red}
+We also compute the total potential energy in a given particle system as 
+\begin{equation}
+    W_\text{tot} = \frac{1}{2} \sum_{i = 1}^{\text{Num\_Particles}} m_\text{part}\Phi(x_i)
+    \label{Total Potential Energy}
+\end{equation}
+(this has been giving me a little trouble, on whether or not to include the factor of 1/2.)}
+We of course complete these calculations in our analogous non-dimensional values.
 
 Using these definitions of $K$ and $W$, we track the energies of 5 individual particles, at every time-step. We also track the energies of \textit{all} particles, but only at snapshots in time, defined at indices:
 $$i = 99*[0,1,2,4,8,16,32,64]$$
@@ -456,6 +465,21 @@ Now in Figure \ref{All Total Energies} we see the plot of the same values seen a
     \label{All Total Energies}
 \end{figure}
 
+\subsection{Checking the Virial Theorem}
+As the simulation goes on, we expect the system to eventually virialize, especially with a large number of particles such as 100000. Visually, this may seem obvious simply by checking that the phase space distribution no longer has any spirals/phase-wrapping, but the Virial theorem specifically states \cite{Binney&Tremaine}:
+\begin{align}
+    &\text{Tensor:} && \frac{1}{2}\frac{d^2 I_{jk}}{dt^2} = 2K_{jk} + W_{jk} \\
+    &\text{Scalar:} && 2K+W=0
+\end{align}
+As it turns out, in 1D this changes to (see \cref{Spitzer+BinneyTremaineProblem},\cref{1D Virial Theorem}):
+\begin{equation}
+    K+W=0
+    \label{1DVirialEquation}
+\end{equation}
+and this is what we would like to check.
+
+Note that, while we do wish to check Eq(\ref{1DVirialEquation}), the condition becomes again slightly modified since we have zeroed our gravitational potential energy in an odd way (Eq(\ref{Potential Energy})). {\color{red}\textbf{Going to have to check this; since we are in a periodic box, the boundary conditions may not be such that $\Phi \rightarrow 0$ as $x \rightarrow \infty$}.}
+
 \subsection{Centroid Drifting}
 An important quantity that should be conserved is the centre of mass of the distribution, so we track this. {\color{red}Currently, it appears to drift over time, and I don't know why}.
 \begin{figure}[h]
@@ -466,15 +490,8 @@ An important quantity that should be conserved is the centre of mass of the dist
 \end{figure}
 There is also seemingly no pattern in drift direction, or shape, between different instances of the same simulations, and between simulations with different numbers of particles.
 
-\subsection{Velocity Profile}
-\begin{figure}[h]
-    \centering
-    \includegraphics[width = 0.8\textwidth]{Images/VelocityDistribution.png}
-    \caption{Caption}
-    \label{fig:my_label}
-\end{figure}
-
-\subsection{Density Profile}
+\subsection{Virialized Density Profile}
+For the amount of time we run the simulation, we expect the system to virialize by the end. We want to see general form of the density profile in the virialized system.
 \begin{figure}[h]
     \centering
     \includegraphics[width = 0.8\textwidth]{Images/DensityProfile.png}
@@ -489,7 +506,18 @@ There is also seemingly no pattern in drift direction, or shape, between differe
     \label{fig:my_label}
 \end{figure}
 
+\subsection{Virialized Velocity Profile}
+Just the same as the density profile approaches a particular distribution, we expect the velocity profile to also approach a particular distribution.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = 0.8\textwidth]{Images/VelocityDistribution.png}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
+
 \subsection{Convergence of $z_\text{rms}$ and $v_\text{rms}$}
+We calculate the root-mean-square position $z_\text{rms}$ and velocity $v_\text{rms}$ at the end of each trial simulation, when the system has virialized.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{Images/RMS_Convergence.png}
@@ -507,9 +535,11 @@ There is also seemingly no pattern in drift direction, or shape, between differe
 %------------------------------------------
 % APPENDIX
 \appendix
-\chapter{Spitzer Distribution}\label{Spitzer+BinneyTremaineProblem}
+\chapter{Gravity in 1D}
 
-\chapter{1D Virial Theorem}
+\section{Spitzer Distribution}\label{Spitzer+BinneyTremaineProblem}
+
+\section{1D Virial Theorem}\label{1D Virial Theorem}
 
 \chapter{Kick-Drift-Kick is Symplectic}\label{KDK Symplectic}
 
