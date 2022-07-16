@@ -5,6 +5,7 @@
 \usepackage{color}
 \usepackage{amsfonts}
 \usepackage{xcolor}
+\usepackage{graphicx}
 \usepackage{hyperref}
 
 \usepackage{cleveref}
@@ -232,7 +233,7 @@ Which reduces to
 \end{equation}
 You could plug this back into Eq(\ref{FULL-NonDim}) to get the clearer picture of the full dimensionless FDM+Particle system.
 
-\section{Calculating Potential}
+\section{Calculating Potential}\label{Poisson Solver}
 The second main ingredient in evolving the system is knowing the gravitational potential $\Phi$, or in the dimensionless case, $\varphi$. We must solve for $\varphi$ from Poisson's Equation corresponding to FDM+Particles, seen in Eq(5), and we do so using a Fast-Fourier-Transform (FFT) method. The basic idea is that applying the Discrete-Discrete Fourier Transform (since we're in a periodic box with a discrete signal/sequence) on Poisson's equation yields:
 \begin{equation*}
     \frac{\pd^2}{\pd z^2}\left(\sum_{n=0}^{N-1} \hat{\varphi}(k_n) e^{i k_n z}\right) = 4 \pi \left(\sum_{n=0}^{N-1} \hat{\varrho}(k_n) e^{i k_n z} - \langle\varrho\rangle\right)
@@ -271,6 +272,10 @@ where $k = 2\pi n$ is the wavenumber in the FFT, ranging in $n\in\{0,...,N-1\}$.
 \begin{equation}
 \int\int f(z,k) dzdk = 1
 \end{equation}
+
+\subsection{Choosing the resolution $\eta$}\label{Choosing Resolution}
+{\color{red}Investigate}
+
 
 \section{Time Evolution}
 
@@ -324,8 +329,8 @@ Though not previously defined, the total mass of the FDM + Particle system is
 \end{equation}
 where
 \begin{align}
-    M_\text{\tiny{FDM}} \equiv \int_{-L/2}^{L/2} \rho_\text{\tiny{FDM}} dz & &\text{and}& &
-    M_\text{part} \equiv \int_{-L/2}^{L/2} \rho_\text{\tiny{part}} dz
+    M_\text{\tiny{FDM}} \equiv \int_{-L/2}^{L/2} \rho_\text{\tiny{FDM}} dx & &\text{and}& &
+    M_\text{part} \equiv \int_{-L/2}^{L/2} \rho_\text{\tiny{part}} dx
 \end{align}
 
 We further define a new expression for the fuzziness parameter $r$ by rearranging:
@@ -336,27 +341,162 @@ We further define a new expression for the fuzziness parameter $r$ by rearrangin
     \left(\frac{\lambda_\text{deB}}{R_\text{syst}}\right)
 \end{align}
 
-\section{Inputs}
+where $\sigma_\text{\tiny{FDM}}$ is the velocity dispersion of the system, $R_\text{syst}$ is the characteristic size of the system,
+and $\lambda_\text{deB}$ is the deBroglie wavelength of the FDM "particle". These can be treated as inputs in the simulations.
 
+\section{Inputs}
 Simulations take in as input:
-\begin{itemize}
+\begin{enumerate}
     \item Box Length: L
-    \item Percentage of total mass occupied by FDM.
-    \item     
+    \item Percentage of total mass occupied by FDM: \% FDM.
+    \item The ratio of velocity dispersion to velocity scale: $\frac{\sigma_\text{\tiny{FDM}}}{v_s}$
+    \item The ratio of characteristic size to length scale: $\frac{R_\text{syst}}{L_s}$
+    \item The ratio of deBroglie wavelength to characteristic size: $\frac{\lambda_\text{deB}}{R_\text{syst}}$ 
+    \item The number of particles (not FDM): Num\_Particles
+    \item The standard deviation of the initial distributions for FDM and Particles
+\end{enumerate}
+
+From these inputs, all other quantities characteristic to the FDM and particle system(s) can
+be determined, and we can run the simulation. From input 2, we know the percentage of mass occupied by particles:
+$$\text{\% Particles} = \% 100 - \text{\% FDM}$$
+
+These two percentages give us the mass occupied by each of FDM and particles.
+
+The inputs 3-5 tell us the fuzziness $r$ of the FDM, which gives us the FDM boson mass: $m_\text{\tiny{FDM}}$.
+Combining that with the total FDM mass, we can determine the normalization of $\psi$ (or otherwise $\chi$):
+$$\int_{-L/2}^{L/2} \psi(x) dx = \frac{M_\text{\tiny{FDM}}}{m_\text{\tiny{FDM}}} \equiv \text{Num\_Bosons}$$
+which can be interpreted as the number of FDM bosons present.
+
+In a similar but opposite way, we can determine the particle mass from the total number of particles (input 5):
+$$m_\text{part} = \frac{M_\text{part}}{\text{Num\_Particles}}$$
+
+Other parameters like the grid resolution $N$, are set at fixed values in the code.
+
+\subsection{Non-Physical Inputs}
+There are other possible/optional inputs in the code, such as: 
+\begin{itemize}
+    \item Fixing the potential to a quadratic.
+    \item Whether to output plots at every time-step or at snapshots.
+    \item Diagnostic/Analysis functionalities: 
+    \begin{itemize}
+        \item Tracking the centroid of the particle distribution.
+        \item Tracking the Energies of a few individual particles
+        \item Tracking the total Kinetic and Potential Energies of the system.
+    \end{itemize}
 \end{itemize}
 
 \section{Outputs}
+The standard output of the code is the final wavefunction $\chi$ (collected in a csv) and the collection of particles 
+(or \texttt{star} class instances), saved in .csv files, as well as plots of the FDM distribution, Particle Distribution, 
+their respective phase-space distributions, and a plot of force contributions from FDM and Particles. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/ToyModelPlot0100.jpg}
+    \caption{An example plot from a simulation of a 50\% FDM, 50\% particle system. (Can't remember how many particles, or the specific $r$, or any other input parameters). }
+    \label{fig:my_label}
+\end{figure}
+
+The optional diagnostics above are also outputted as arrays and saved in .csv files.
 
 %-------------------------------------------------------------
 % Chapter 4: ANALYSIS
 \chapter{Analysis + Diagnostics}
 
 \section{Running purely N-Body}
-Diagnostics were performed for an array of particle numbers, between 5 and 100000 particles, all generated from a Gaussian distribution of standard deviation 0.1, in a system of total mass $M=1$ (just as described in Chapter 2.)
+Diagnostics/tests were performed for an array of particle numbers, between 5 and 100000 particles, all generated from a Gaussian distribution of standard deviation 0.1, in a system of total mass $M=1$ (just as described in Chapter 2.)
 
-All Diagnostics for the 100000-Body run are included here:
+To illustrate the results of the analysis and diagnostics,  we use the 100000-Body run as the primary example below. We also include an analysis of the convergent behaviour of the system upon increasing the particle number.
 
-*Include Pictures/Snapshots here*
+{\color{red}\textbf{*Include Pictures/Snapshots here*}}
+
+\subsection{Energies}
+To check that conservation of Energy holds, and to analyse possible oddities in the energy of individual particles over time, we perform several diagnostics tracking Kinetic and Potential Energies.
+
+Kinetic energy for a single particle is calculated simply as:
+\begin{equation}
+    K = \frac{1}{2}m_\text{part} v^2
+\end{equation}
+Potential energy for a single particle is calculated by locating the particle's position on the grid by index, then interpolating between grid points to determine what the potential $\Phi$ is at the exact location of the particle, then calculate:
+\begin{equation}
+    W = m_\text{part}\Phi(x)    
+    \label{Potential Energy}
+\end{equation}
+Now, since the FFT solving method for Poisson's equation, seen in \cref{Poisson Solver}, actually returns
+$$\Phi \leftarrow \Phi - \langle\Phi\rangle$$
+instead of $\Phi$, we attempt to properly zero the potential by subtracting the maximum value in the box:
+$$\Phi \leftarrow \Phi - \sup_{[-L/2,L/2]}(\Phi)$$
+and then use this value in the potential energy Eq(\ref{Potential Energy}). We of course complete these calculations in our analogous non-dimensional values.
+
+Using these definitions of $K$ and $W$, we track the energies of 5 individual particles, at every time-step. We also track the energies of \textit{all} particles, but only at snapshots in time, defined at indices:
+$$i = 99*[0,1,2,4,8,16,32,64]$$
+In Figure \ref{5Stars Inidivual} are shown the relevant plots for the 5 individual particles, showing Kinetic,Potential and Total Energies, and in Figure \ref{5Stars Total} are the totals of these energies, along with ``Virial Ratio":
+\begin{equation}
+    \left|\frac{K}{W}\right|
+\end{equation}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/5Stars_Individual.png}
+    \caption{Caption}
+    \label{5Stars Inidivual}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/5Stars_Total.png}
+    \caption{Caption}
+    \label{5Stars Total}
+\end{figure}
+
+Now in Figure \ref{All Total Energies} we see the plot of the same values seen above in  \ref{5Stars Total}, but for every single particle, taken at the snapshot times defined above.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{Images/AllTotal.png}
+    \caption{Caption}
+    \label{All Total Energies}
+\end{figure}
+
+\subsection{Centroid Drifting}
+An important quantity that should be conserved is the centre of mass of the distribution, so we track this. {\color{red}Currently, it appears to drift over time, and I don't know why}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale = 0.75]{Images/Centroid.png}
+    \caption{Caption}
+    \label{Centroid Drift}
+\end{figure}
+There is also seemingly no pattern in drift direction, or shape, between different instances of the same simulations, and between simulations with different numbers of particles.
+
+\subsection{Velocity Profile}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = 0.8\textwidth]{Images/VelocityDistribution.png}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
+\subsection{Density Profile}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = 0.8\textwidth]{Images/DensityProfile.png}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = \textwidth]{Images/DensityCurveFit.png}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
+\subsection{Convergence of $z_\text{rms}$ and $v_\text{rms}$}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Images/RMS_Convergence.png}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
 
 \section{Running purely FDM}
 
