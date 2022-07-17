@@ -265,7 +265,7 @@ In our codes, each particle is as instance of a Python class called \texttt{star
 
 For creating a phase space representation of the FDM component, we turn to a windowed-FFT (or "Short-time Fourier Transform") similar to the Husimi representation. We get the phase space density by convolving, inside an FFT, the wavefunction with a Guassian window of width $\eta$ centered at a position $z$
 \begin{equation}
-    f(z,k,\tau) \equiv \large{\sum_{m = 0}^{N-1}} \left[e^{imk/N}\exp\left({-\frac{(z-\tilde{z})^2}{2\eta^2}}\right)\chi(\tilde{z,\tau})\right]
+    f(z,k,\tau) \equiv \sum_{m = 0}^{N-1} \left[e^{imk/N}\exp\left({-\frac{(z-\tilde{z})^2}{2\eta^2}}\right)\chi(\tilde{z,\tau})\right]
     \label{PhaseSpace FDM}
 \end{equation}
 where $k = 2\pi n$ is the wavenumber in the FFT, ranging in $n\in\{0,...,N-1\}$. In NumPy, which we use in our code, this sign convention requires us to use \texttt{numpy.ifft}. By convention, \texttt{numpy.ifft} also divides by $N$, but we don't mind since we re-normalize $f$ right after so that:
@@ -273,7 +273,7 @@ where $k = 2\pi n$ is the wavenumber in the FFT, ranging in $n\in\{0,...,N-1\}$.
 \int\int f(z,k) dzdk = 1
 \end{equation}
 
-\subsection{Choosing the resolution $\eta$}\label{Choosing Resolution}
+\subsection{Choosing the resolution \(\eta\)}\label{Choosing Resolution}
 {\color{red}Investigate}
 
 
@@ -394,7 +394,7 @@ their respective phase-space distributions, and a plot of force contributions fr
     \centering
     \includegraphics[width=\textwidth]{Images/ToyModelPlot0100.jpg}
     \caption{An example plot from a simulation of a 50\% FDM, 50\% particle system. (Can't remember how many particles, or the specific $r$, or any other input parameters). }
-    \label{fig:my_label}
+    \label{Example Snapshot}
 \end{figure}
 
 The optional diagnostics above are also outputted as arrays and saved in .csv files.
@@ -496,14 +496,14 @@ For the amount of time we run the simulation, we expect the system to virialize 
     \centering
     \includegraphics[width = 0.8\textwidth]{Images/DensityProfile.png}
     \caption{Caption}
-    \label{fig:my_label}
+    \label{Density Profile}
 \end{figure}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width = \textwidth]{Images/DensityCurveFit.png}
     \caption{Caption}
-    \label{fig:my_label}
+    \label{Density Curve Fit}
 \end{figure}
 
 \subsection{Virialized Velocity Profile}
@@ -512,7 +512,7 @@ Just the same as the density profile approaches a particular distribution, we ex
     \centering
     \includegraphics[width = 0.8\textwidth]{Images/VelocityDistribution.png}
     \caption{Caption}
-    \label{fig:my_label}
+    \label{Velocity Profile}
 \end{figure}
 
 

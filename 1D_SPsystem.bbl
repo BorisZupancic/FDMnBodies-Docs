@@ -1,0 +1,22 @@
+\begin{thebibliography}{1}
+
+\bibitem{Binney&Tremaine}
+James {Binney} and Scott {Tremaine}.
+\newblock {\em {Galactic Dynamics: Second Edition}}.
+\newblock 2008.
+
+\bibitem{Edwards_2018}
+Faber Edwards, Emily Kendall, Shaun Hotchkiss, and Richard Easther.
+\newblock {PyUltraLight}: a pseudo-spectral solver for ultralight dark matter
+  dynamics.
+\newblock {\em Journal of Cosmology and Astroparticle Physics},
+  2018(10):027--027, oct 2018.
+
+\bibitem{May&Springel_2021}
+Simon May and Volker Springel.
+\newblock Structure formation in large-volume cosmological simulations of fuzzy
+  dark matter: impact of the non-linear dynamics.
+\newblock {\em Monthly Notices of the Royal Astronomical Society},
+  506(2):2603--2618, jun 2021.
+
+\end{thebibliography}
