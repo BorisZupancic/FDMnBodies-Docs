@@ -23,7 +23,7 @@
 \contentsline {subsection}{\numberline {4.1.2}Checking the Virial Theorem}{16}{subsection.4.1.2}%
 \contentsline {subsection}{\numberline {4.1.3}Centroid Drifting}{17}{subsection.4.1.3}%
 \contentsline {subsection}{\numberline {4.1.4}Virialized Density Profile}{18}{subsection.4.1.4}%
-\contentsline {subsection}{\numberline {4.1.5}Virialized Velocity Profile}{18}{subsection.4.1.5}%
+\contentsline {subsection}{\numberline {4.1.5}Virialized Velocity Profile}{19}{subsection.4.1.5}%
 \contentsline {subsection}{\numberline {4.1.6}Convergence of $z_\text {rms}$ and $v_\text {rms}$}{19}{subsection.4.1.6}%
 \contentsline {section}{\numberline {4.2}Running purely FDM}{19}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Running Together}{19}{section.4.3}%

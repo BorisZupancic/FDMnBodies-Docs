@@ -4,45 +4,46 @@ The top-level auxiliary file: 1D_SPsystem.aux
 The style file: plain.bst
 Database file #1: refs.bib
 Warning--empty publisher in Binney&Tremaine
-You've used 3 entries,
+Warning--empty journal in NFW1996
+You've used 4 entries,
             2118 wiz_defined-function locations,
-            520 strings with 4628 characters,
-and the built_in function-call counts, 1022 in all, are:
-= -- 97
-> -- 49
+            527 strings with 4760 characters,
+and the built_in function-call counts, 1333 in all, are:
+= -- 125
+> -- 67
 < -- 0
-+ -- 19
-- -- 16
-* -- 83
-:= -- 176
-add.period$ -- 9
-call.type$ -- 3
-change.case$ -- 16
++ -- 26
+- -- 22
+* -- 108
+:= -- 231
+add.period$ -- 12
+call.type$ -- 4
+change.case$ -- 22
 chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 34
-empty$ -- 79
-format.name$ -- 16
-if$ -- 203
+cite$ -- 6
+duplicate$ -- 45
+empty$ -- 101
+format.name$ -- 22
+if$ -- 264
 int.to.chr$ -- 0
-int.to.str$ -- 3
-missing$ -- 4
-newline$ -- 18
-num.names$ -- 6
-pop$ -- 18
+int.to.str$ -- 4
+missing$ -- 5
+newline$ -- 23
+num.names$ -- 8
+pop$ -- 24
 preamble$ -- 1
-purify$ -- 14
+purify$ -- 19
 quote$ -- 0
-skip$ -- 22
+skip$ -- 29
 stack$ -- 0
-substring$ -- 71
+substring$ -- 85
 swap$ -- 3
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 10
-warning$ -- 1
-while$ -- 10
-width$ -- 4
-write$ -- 33
-(There was 1 warning)
+type$ -- 14
+warning$ -- 2
+while$ -- 13
+width$ -- 5
+write$ -- 43
+(There were 2 warnings)

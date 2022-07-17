@@ -408,8 +408,6 @@ Diagnostics/tests were performed for an array of particle numbers, between 5 and
 
 To illustrate the results of the analysis and diagnostics,  we use the 100000-Body run as the primary example below. We also include an analysis of the convergent behaviour of the system upon increasing the particle number.
 
-{\color{red}\textbf{*Include Pictures/Snapshots here*}}
-
 \subsection{Energies}
 To check that conservation of Energy holds, and to analyse possible oddities in the energy of individual particles over time, we perform several diagnostics tracking Kinetic and Potential Energies.
 
@@ -478,7 +476,9 @@ As it turns out, in 1D this changes to (see \cref{Spitzer+BinneyTremaineProblem}
 \end{equation}
 and this is what we would like to check.
 
-Note that, while we do wish to check Eq(\ref{1DVirialEquation}), the condition becomes again slightly modified since we have zeroed our gravitational potential energy in an odd way (Eq(\ref{Potential Energy})). {\color{red}\textbf{Going to have to check this; since we are in a periodic box, the boundary conditions may not be such that $\Phi \rightarrow 0$ as $x \rightarrow \infty$}.}
+Note that, while we do wish to check Eq(\ref{1DVirialEquation}), the condition becomes again slightly modified since we have zeroed our gravitational potential energy in an odd way (Eq(\ref{Potential Energy})). 
+{\color{red}\textbf{Going to have to check this; since we are in a periodic box, the boundary conditions may not be such that $\Phi \rightarrow 0$ as $x \rightarrow \infty$}.
+This means that Eq(\ref{1DVirialEquation}) can actually take the form $K+W = C$, where $C$ is some unknown constant, not to be confused with the constant total Energy.}
 
 \subsection{Centroid Drifting}
 An important quantity that should be conserved is the centre of mass of the distribution, so we track this. {\color{red}Currently, it appears to drift over time, and I don't know why}.
@@ -491,13 +491,21 @@ An important quantity that should be conserved is the centre of mass of the dist
 There is also seemingly no pattern in drift direction, or shape, between different instances of the same simulations, and between simulations with different numbers of particles.
 
 \subsection{Virialized Density Profile}
-For the amount of time we run the simulation, we expect the system to virialize by the end. We want to see general form of the density profile in the virialized system.
+For the amount of time we run the simulation, we expect the system to virialize by the end. We want to see the general form of the density profile in the virialized system.
 \begin{figure}[h]
     \centering
     \includegraphics[width = 0.8\textwidth]{Images/DensityProfile.png}
     \caption{Caption}
     \label{Density Profile}
 \end{figure}
+
+We manage to curve fit the density profile, with 3 different functions, seen in Figure \ref{Density Curve Fit}.
+Most important is the fitting function:
+\begin{equation}
+    f(z; a_0,a_1,a_2) = \frac{a_0}{|z|^{a_2} (|z|+a_1)^2}
+    \label{Fit function}
+\end{equation}
+where $a_0,a_1,a_2$ are fitting parameters, which resembles a modified NFW profile \cite{NFW1996}.
 
 \begin{figure}[h]
     \centering
@@ -508,6 +516,10 @@ For the amount of time we run the simulation, we expect the system to virialize 
 
 \subsection{Virialized Velocity Profile}
 Just the same as the density profile approaches a particular distribution, we expect the velocity profile to also approach a particular distribution.
+We plot this on the right of Figure \ref{Velocity Profile}, displaying the root-mean-squae velocity $v_\text{rms}$ as a function of radial position $|z|$.
+The values are computed by sorting/histogramming the particles by position, the computing the $v_\text{rms}$ in these bins.
+A horizontal line through the root-mean-square velocity of \textit{all} particles would represent an isothermal distribution as seen in 
+the Spitzer distribution (see problem 4.21 in Binney \& Tremaine \cite{Binney&Tremaine} and \cref{Spitzer+BinneyTremaineProblem}).
 \begin{figure}[h]
     \centering
     \includegraphics[width = 0.8\textwidth]{Images/VelocityDistribution.png}
@@ -518,11 +530,14 @@ Just the same as the density profile approaches a particular distribution, we ex
 
 \subsection{Convergence of $z_\text{rms}$ and $v_\text{rms}$}
 We calculate the root-mean-square position $z_\text{rms}$ and velocity $v_\text{rms}$ at the end of each trial simulation, when the system has virialized.
+They should converge as the number of particles increases and the system becomes more ``smooth",
+since it approaches a state further resembling that described by the virial equation.
+This can be seen in Figure \ref{Z_rms and V_rms Final}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{Images/RMS_Convergence.png}
     \caption{Caption}
-    \label{fig:my_label}
+    \label{Z_rms and V_rms Final}
 \end{figure}
 
 
