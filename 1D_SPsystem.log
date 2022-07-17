@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.7.17)  17 JUL 2022 15:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.7.17)  17 JUL 2022 16:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -423,12 +423,12 @@ Chapter 4.
 <Images/5Stars_Individual.png, id=335, 877.2775pt x 320.19624pt>
 File: Images/5Stars_Individual.png Graphic file (type png)
 <use Images/5Stars_Individual.png>
-Package pdftex.def Info: Images/5Stars_Individual.png  used on input line 448.
+Package pdftex.def Info: Images/5Stars_Individual.png  used on input line 446.
 (pdftex.def)             Requested size: 345.0pt x 125.92159pt.
 <Images/5Stars_Total.png, id=337, 1165.35374pt x 340.27126pt>
 File: Images/5Stars_Total.png Graphic file (type png)
 <use Images/5Stars_Total.png>
-Package pdftex.def Info: Images/5Stars_Total.png  used on input line 455.
+Package pdftex.def Info: Images/5Stars_Total.png  used on input line 453.
 (pdftex.def)             Requested size: 345.0pt x 100.73221pt.
 
 
@@ -437,13 +437,13 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <Images/AllTotal.png, id=340, 1178.4025pt x 340.27126pt>
 File: Images/AllTotal.png Graphic file (type png)
 <use Images/AllTotal.png>
-Package pdftex.def Info: Images/AllTotal.png  used on input line 463.
+Package pdftex.def Info: Images/AllTotal.png  used on input line 461.
 (pdftex.def)             Requested size: 345.0pt x 99.6211pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [16 <./Images/5Stars_Individual.png>]
-<Images/Centroid.png, id=356, 387.4475pt x 264.99pt>
+<Images/Centroid.png, id=357, 387.4475pt x 264.99pt>
 File: Images/Centroid.png Graphic file (type png)
 <use Images/Centroid.png>
 Package pdftex.def Info: Images/Centroid.png  used on input line 487.
@@ -452,63 +452,60 @@ Package pdftex.def Info: Images/Centroid.png  used on input line 487.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Images/DensityProfile.png, id=357, 612.2875pt x 296.10625pt>
+[17 <./Images/5Stars_Total.png> <./Images/AllTotal.png>]
+<Images/DensityProfile.png, id=368, 612.2875pt x 296.10625pt>
 File: Images/DensityProfile.png Graphic file (type png)
 <use Images/DensityProfile.png>
 Package pdftex.def Info: Images/DensityProfile.png  used on input line 497.
 (pdftex.def)             Requested size: 276.00105pt x 133.47249pt.
-[17 <./Images/5Stars_Total.png> <./Images/AllTotal.png>]
-<Images/DensityCurveFit.png, id=368, 1725.44624pt x 648.4225pt>
+ [18 <./Images/Centroid.png> <./Images/DensityProfile.png>]
+<Images/DensityCurveFit.png, id=380, 1725.44624pt x 648.4225pt>
 File: Images/DensityCurveFit.png Graphic file (type png)
 <use Images/DensityCurveFit.png>
-Package pdftex.def Info: Images/DensityCurveFit.png  used on input line 504.
+Package pdftex.def Info: Images/DensityCurveFit.png  used on input line 512.
 (pdftex.def)             Requested size: 345.0pt x 129.64262pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<Images/VelocityDistribution.png, id=369, 659.46375pt x 342.27875pt>
+<Images/VelocityDistribution.png, id=384, 659.46375pt x 342.27875pt>
 File: Images/VelocityDistribution.png Graphic file (type png)
 <use Images/VelocityDistribution.png>
-Package pdftex.def Info: Images/VelocityDistribution.png  used on input line 513.
+Package pdftex.def Info: Images/VelocityDistribution.png  used on input line 525.
 (pdftex.def)             Requested size: 276.00105pt x 143.2547pt.
 
+
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 519.
+(hyperref)                removing `math shift' on input line 531.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 519.
+(hyperref)                removing `subscript' on input line 531.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 519.
+(hyperref)                removing `math shift' on input line 531.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 519.
+(hyperref)                removing `math shift' on input line 531.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 519.
+(hyperref)                removing `subscript' on input line 531.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 519.
+(hyperref)                removing `math shift' on input line 531.
 
-<Images/RMS_Convergence.png, id=370, 885.3075pt x 322.20375pt>
+<Images/RMS_Convergence.png, id=386, 885.3075pt x 322.20375pt>
 File: Images/RMS_Convergence.png Graphic file (type png)
 <use Images/RMS_Convergence.png>
-Package pdftex.def Info: Images/RMS_Convergence.png  used on input line 523.
+Package pdftex.def Info: Images/RMS_Convergence.png  used on input line 538.
 (pdftex.def)             Requested size: 276.00105pt x 100.44751pt.
-[18 <./Images/Centroid.png> <./Images/DensityProfile.png>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[19 <./Images/DensityCurveFit.png> <./Images/VelocityDistribution.png>] [20 <./Images/RMS_Convergence.png>]
+[19 <./Images/DensityCurveFit.png>] [20 <./Images/VelocityDistribution.png> <./Images/RMS_Convergence.png>]
 Appendix A.
 [21
 
@@ -523,20 +520,20 @@ Package rerunfilecheck Info: File `1D_SPsystem.out' has not changed.
 (rerunfilecheck)             Checksum: F0DB6AE51B1E5876A3BFEA0F165A0905;4852.
  ) 
 Here is how much of TeX's memory you used:
- 15440 strings out of 480171
- 302908 string characters out of 5894489
+ 15445 strings out of 480171
+ 302994 string characters out of 5894489
  578366 words of memory out of 5000000
- 33098 multiletter control sequences out of 15000+600000
+ 33101 multiletter control sequences out of 15000+600000
  480157 words of font info for 69 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  71i,13n,79p,544b,934s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{https://github.com/BorisZupancic/FDM_n_Bodies} has been referenced but does not exist, replaced by a fixed one
 
  </home/boris/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on 1D_SPsystem.pdf (24 pages, 752334 bytes).
+Output written on 1D_SPsystem.pdf (24 pages, 754168 bytes).
 PDF statistics:
- 537 PDF objects out of 1000 (max. 8388607)
- 441 compressed objects within 5 object streams
- 118 named destinations out of 1000 (max. 500000)
+ 546 PDF objects out of 1000 (max. 8388607)
+ 450 compressed objects within 5 object streams
+ 120 named destinations out of 1000 (max. 500000)
  310 words of extra memory for PDF output out of 10000 (max. 10000000)
 

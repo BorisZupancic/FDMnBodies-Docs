@@ -1,15 +1,15 @@
 # Fdb version 3
-["bibtex 1D_SPsystem"] 1658085278 "1D_SPsystem.aux" "1D_SPsystem.bbl" "1D_SPsystem" 1658085282
+["bibtex 1D_SPsystem"] 1658088384 "1D_SPsystem.aux" "1D_SPsystem.bbl" "1D_SPsystem" 1658088416
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "1D_SPsystem.aux" 1658085281 11587 0c75964ee125c8d2476da5814ff5a70d "pdflatex"
-  "refs.bib" 1658002100 1322 98edec4a18b9f46d1bf6968a4a14be83 ""
+  "1D_SPsystem.aux" 1658088415 11818 6569f5025c7da4013af4e4bc7ff8abee "pdflatex"
+  "refs.bib" 1658087406 1958 49164fde5e5d48482b50707823db788a ""
   (generated)
   "1D_SPsystem.bbl"
   "1D_SPsystem.blg"
-["pdflatex"] 1658085278 "/home/boris/Documents/Research/FDMnBodies-Docs/1D_SPsystem.tex" "1D_SPsystem.pdf" "1D_SPsystem" 1658085282
+["pdflatex"] 1658088411 "/home/boris/Documents/Research/FDMnBodies-Docs/1D_SPsystem.tex" "1D_SPsystem.pdf" "1D_SPsystem" 1658088416
   "/etc/texmf/web2c/texmf.cnf" 1657926407 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/boris/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk" 1658084524 11524 679e46ee8b41e9e55db3634c1948b219 ""
-  "/home/boris/Documents/Research/FDMnBodies-Docs/1D_SPsystem.tex" 1658085273 29114 13ae0b177c431dec3a5f436c5a1cc738 ""
+  "/home/boris/Documents/Research/FDMnBodies-Docs/1D_SPsystem.tex" 1658088410 30392 2126bed04463e26f78f0a05504ef5be4 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -128,11 +128,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1658084471 165012 f177baa1c39a3ebd62c3096a43521a0d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1658084495 1435889 485a374093c00a5ba0633b7beb7fbf21 ""
-  "1D_SPsystem.aux" 1658085281 11587 0c75964ee125c8d2476da5814ff5a70d "pdflatex"
-  "1D_SPsystem.bbl" 1658085278 748 bdcfa00b66dab0af1e72a1a4a6977a41 "bibtex 1D_SPsystem"
-  "1D_SPsystem.out" 1658085281 4852 f0db6ae51b1e5876a3bfea0f165a0905 "pdflatex"
-  "1D_SPsystem.tex" 1658085273 29114 13ae0b177c431dec3a5f436c5a1cc738 ""
-  "1D_SPsystem.toc" 1658085281 2707 248af3871bcb752b166cda9180561d94 "pdflatex"
+  "1D_SPsystem.aux" 1658088415 11818 6569f5025c7da4013af4e4bc7ff8abee "pdflatex"
+  "1D_SPsystem.bbl" 1658088384 913 0e1a55c271b602c8a31dbc8fa686300e "bibtex 1D_SPsystem"
+  "1D_SPsystem.out" 1658088415 4852 f0db6ae51b1e5876a3bfea0f165a0905 "pdflatex"
+  "1D_SPsystem.tex" 1658088410 30392 2126bed04463e26f78f0a05504ef5be4 ""
+  "1D_SPsystem.toc" 1658088415 2707 f600dac8aa1a02814db5e44cac72967f "pdflatex"
   "Images/5Stars_Individual.png" 1658002100 52675 1f318a62a4dfae38ebc893b3f5a1dfb7 ""
   "Images/5Stars_Total.png" 1658002100 88562 e7ad22060b513e8b6fb0185c593c2bc9 ""
   "Images/AllTotal.png" 1658002100 39143 1f19743cd337e308eda4914d8e69c479 ""
